@@ -6,10 +6,28 @@ import java.util.List;
 import java.util.Scanner;
 
 import comparadores.*;
+import dao.DAOFactory;
 import model.*;
 
 public class Sugeridor {
 
+	
+//metodos synchronized para que no quede ninguna transaccion a la mitad	
+	private synchronized static void agregarYPagarPromo(Usuario unUsuario, Promocion unaPromocion) {
+		for (Atraccion cadaAtraccion : unaPromocion.getAtraccionesEnPromocion()) {
+			cadaAtraccion.reservarLugar(unUsuario);
+			DAOFactory.getItinerarioDAO().cargarAtraccion(cadaAtraccion, unUsuario);
+
+		}
+		unUsuario.pagar(unaPromocion);
+	}
+	
+	private synchronized static void agregarYPagar(Usuario unUsuario, Atraccion unaAtraccion) {
+		unaAtraccion.reservarLugar(unUsuario);
+		DAOFactory.getItinerarioDAO().cargarAtraccion(unaAtraccion, unUsuario);
+		unUsuario.pagar(unaAtraccion);
+	}
+	
 	protected static void sugerirPromos(Usuario unUsuario, List<Promocion> unasPromociones) {
 		for (Promocion cadaPromocion : unasPromociones) {
 			
@@ -40,12 +58,18 @@ public class Sugeridor {
 
 				if (seleccion == 1) {
 
+				/*	bloque reemplazado por metodo con synchronized
+				 
 					for (Atraccion cadaAtraccion : cadaPromocion.getAtraccionesEnPromocion()) {
 
 						cadaAtraccion.reservarLugar(unUsuario);
+						
+						DAOFactory.getItinerarioDAO().cargarAtraccion(cadaAtraccion, unUsuario);
 
 					}
 					unUsuario.pagar(cadaPromocion);
+					*/
+					agregarYPagarPromo(unUsuario, cadaPromocion);
 					System.out.println(unUsuario.getNombre() + ", adquiriste exitosamente la promocion.");
 					System.out.println("Tiempo disponible restante: " + unUsuario.getTiempoDisponible() + " horas.");
 					System.out.println("Dinero disponible restante: " + unUsuario.getPresupuesto() + " monedas. \n");
@@ -56,8 +80,8 @@ public class Sugeridor {
 				} else if(seleccion == 3) {
 					
 					System.out.println("Salida de seleccion de promos exitosa!");
+					break;
 					
-					return;
 					
 				}
 			}
@@ -70,7 +94,7 @@ public class Sugeridor {
 			if (unUsuario.podesIrA(cadaAtraccion) && cadaAtraccion.getUsosDisponibles() > 0) {
 
 				Scanner entrada = new Scanner(System.in);
-
+				
 				System.out.println(unUsuario.getNombre() + ", te gustaria ir a " + cadaAtraccion.getNombre()
 						+ " por "+ cadaAtraccion.getValor() +" monedas? Tiene una duracion de "+
 						cadaAtraccion.getTiempoDeUso()+ " horas.");
@@ -92,8 +116,13 @@ public class Sugeridor {
 
 				if (seleccion == 1) {
 
+					/*bloque reemplazado por metodo con synchronized
+					
 					cadaAtraccion.reservarLugar(unUsuario);
+					DAOFactory.getItinerarioDAO().cargarAtraccion(cadaAtraccion, unUsuario);
 					unUsuario.pagar(cadaAtraccion);
+					*/
+					agregarYPagar(unUsuario, cadaAtraccion);
 					System.out.println(unUsuario.getNombre() + ", adquiriste exitosamente la atraccion.");
 					System.out.println("Tiempo disponible restante: " + unUsuario.getTiempoDisponible() + " horas.");
 					System.out.println("Dinero disponible restante: " + unUsuario.getPresupuesto() + " monedas. \n");
@@ -106,8 +135,7 @@ public class Sugeridor {
 				}  else if(seleccion == 3) {
 					
 					System.out.println("Salida de seleccion de atracciones exitosa!");
-					
-					return;
+					break;
 				}
 
 			}

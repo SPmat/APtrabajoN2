@@ -3,12 +3,10 @@ package dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
 import jdbc.ConnectionProvider;
-import model.Atraccion;
 import model.TipoDeAtraccion;
 import model.Usuario;
 
@@ -42,6 +40,7 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 			resultados.next();
 			int total = resultados.getInt("total");
 
+			
 			return total;
 		} catch(Exception e) {
 			throw new MissingDataException(e);
@@ -60,6 +59,12 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 			statement.setString(4, usuario.getAtraccionFavorita().getNombreDeTipo());
 			int rows = statement.executeUpdate();
 
+			try {
+				conn.close();
+			} catch(Exception e) {
+				System.err.println("Hubo un problema cerrando la conexion a bd");
+			}
+			
 			return rows;
 		} catch(Exception e) {
 			throw new MissingDataException(e);
@@ -77,6 +82,7 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 			statement.setString(3, usuario.getNombre());
 			int rows = statement.executeUpdate();
 
+			
 			return rows;
 		} catch(Exception e) {
 			throw new MissingDataException(e);
@@ -92,6 +98,7 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 			statement.setString(1, usuario.getNombre());
 			int rows = statement.executeUpdate();
 
+			
 			return rows;
 		} catch(Exception e) {
 			throw new MissingDataException(e);
@@ -111,7 +118,6 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 			if (resultados.next()) {
 				usuario = toUsuario(resultados);
 			}
-
 			return usuario;
 		} catch(Exception e) {
 			throw new MissingDataException(e);
@@ -132,7 +138,7 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 			if (resultados.next()) {
 				usuario = toUsuario(resultados);
 			}
-
+			
 			return usuario;
 		} catch(Exception e) {
 			throw new MissingDataException(e);
@@ -148,7 +154,7 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 			statement.setString(1, nombre);
 			ResultSet resultados = statement.executeQuery();
 
-
+			
 
 			return resultados.getInt("ID");
 		} catch(Exception e) {
@@ -180,4 +186,34 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 		}
 	}
 
+	public void restaurar() {
+		try {
+
+			Connection conn = ConnectionProvider.getConnection();
+			int[] tiempo= {
+					8,		//sam
+					8,		//eowyn
+					5,		//gandalf
+					6,		//galadriel
+					50,		//boromir
+					60,		//gollum
+					9,		//legolas
+					7,		//frodo
+					15,		//sauron
+					9,		//arwen
+					30,		//gimli
+					16		//aragorn
+			};
+			for(int i=0; i<tiempo.length; i++) {
+				String sql = "UPDATE usuarios SET tiempo_libre= ? WHERE id= ? ";
+				PreparedStatement statement = conn.prepareStatement(sql);
+				statement.setInt(1, tiempo[i]);				
+				statement.setInt(2, i+1);				//el id se mueve a 1 numero mas que el recorrido del for ya que empieza en 1
+				statement.executeUpdate();
+			}
+		} catch(Exception e) {
+			throw new MissingDataException(e);
+		}
+	}
+	
 }

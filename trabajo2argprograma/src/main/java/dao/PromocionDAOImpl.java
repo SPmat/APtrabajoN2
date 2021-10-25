@@ -233,4 +233,8 @@ public class PromocionDAOImpl implements PromocionDAO{
 			throw new MissingDataException(e);
 		}
 	}
+	
+	public void restaurar() {
+		//no necesita restauracion
+	}
 }

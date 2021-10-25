@@ -8,7 +8,7 @@ import java.nio.file.StandardCopyOption;
 
 public class restauradorDeBaseDeDatos {
 	
-    public static void main(String[] args) {
+    public synchronized static void restaurarDB() {
     	
     	
     	
@@ -30,9 +30,17 @@ public class restauradorDeBaseDeDatos {
         } catch (IOException e) {
             System.err.println(e);
         }
-        
-        
-
+    	/*Luego de ejecutarlo tira [SQLITE_BUSY]  The database file is locked (database is locked)
+    	DAOFactory.getAtraccionDAO().restaurar();
+    	DAOFactory.getItinerarioDAO().restaurar();
+    	DAOFactory.getUsuarioDAO().restaurar();
+    	try {
+    		jdbc.ConnectionProvider.getConnection().close();} 
+    	catch(Exception e) {
+    		System.err.println("Error al cerrar conexion.");
+    	}*/
     }
+
+    	
 
 }

@@ -23,11 +23,10 @@ public class AtraccionDAOImpl implements AtraccionDAO{
 		while (resultados.next()) {
 			atracciones.add(toAtraccion(resultados));
 		}
-
 		return atracciones;
 		} catch(Exception e) {
 			throw new MissingDataException(e);
-		}
+		} 
 	}
 	
 	public int countAll() {
@@ -39,7 +38,6 @@ public class AtraccionDAOImpl implements AtraccionDAO{
 
 			resultados.next();
 			int total = resultados.getInt("total");
-
 			return total;
 		} catch(Exception e) {
 			throw new MissingDataException(e);
@@ -58,7 +56,7 @@ public class AtraccionDAOImpl implements AtraccionDAO{
 			statement.setInt(4, atraccion.getUsosDisponibles());
 			statement.setString(5, atraccion.getNombreTipo());
 			int rows = statement.executeUpdate();
-
+			
 			return rows;
 		} catch(Exception e) {
 			throw new MissingDataException(e);
@@ -74,7 +72,7 @@ public class AtraccionDAOImpl implements AtraccionDAO{
 			statement.setInt(1, atraccion.getUsosDisponibles());
 			statement.setString(2, atraccion.getNombre());
 			int rows = statement.executeUpdate();
-
+			
 			return rows;
 		} catch(Exception e) {
 			throw new MissingDataException(e);
@@ -89,7 +87,7 @@ public class AtraccionDAOImpl implements AtraccionDAO{
 			PreparedStatement statement = conn.prepareStatement(sql);
 			statement.setString(1, atraccion.getNombre());
 			int rows = statement.executeUpdate();
-
+			
 			return rows;
 		} catch(Exception e) {
 			throw new MissingDataException(e);
@@ -109,7 +107,7 @@ public class AtraccionDAOImpl implements AtraccionDAO{
 			if (resultados.next()) {
 				atraccion = toAtraccion(resultados);
 			}
-
+			
 			return atraccion;
 		} catch(Exception e) {
 			throw new MissingDataException(e);
@@ -130,7 +128,7 @@ public class AtraccionDAOImpl implements AtraccionDAO{
 			if (resultados.next()) {
 				atraccion = toAtraccion(resultados);
 			}
-
+			
 			return atraccion;
 		} catch(Exception e) {
 			throw new MissingDataException(e);
@@ -168,6 +166,41 @@ public class AtraccionDAOImpl implements AtraccionDAO{
 			//retorno el objeto
 			return new Atraccion(resultado.getString("nombre"), resultado.getInt("valor"), resultado.getDouble("tiempo"), 
 					resultado.getInt("usos_disponibles"), TipoDeAtraccion.valueOf(tipoAtraccion));
+			
+		} catch(Exception e) {
+			throw new MissingDataException(e);
+		}
+	}
+	
+	public void restaurar() {
+		try {
+
+			Connection conn = ConnectionProvider.getConnection();
+			int[] cupos= {
+					6, 		//moria
+					25, 	//minas tirith
+					150, 	//la comarca
+					4,		//mordor
+					15,		//abismo de helm
+					30, 	//lothlorien
+					32,		//erebor
+					12, 	//bosque negro
+					20,		//rivendel
+					10, 	//isengard
+					25,		//edoras
+					3,		//fangorn
+					10,		//gondor
+					7,		//harad
+					30		//palargir
+			};
+			for(int i=0; i<cupos.length; i++) {
+				String sql = "UPDATE atracciones SET usos_disponibles= ? WHERE id= ? ";
+				PreparedStatement statement = conn.prepareStatement(sql);
+				statement.setInt(1, cupos[i]);				
+				statement.setInt(2, i+1);				//el id se mueve a 1 numero mas que el recorrido del for ya que empieza en 1
+				statement.executeUpdate();
+			}
+			
 		} catch(Exception e) {
 			throw new MissingDataException(e);
 		}

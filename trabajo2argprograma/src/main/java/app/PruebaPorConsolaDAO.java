@@ -1,17 +1,14 @@
 package app;
 
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import dao.AtraccionDAOImpl;
+import dao.DAOFactory;
 import dao.ItinerarioDAOImpl;
 import dao.PromocionDAOImpl;
 import dao.UsuarioDAOImpl;
-import jdbc.ConnectionProvider;
 import model.Atraccion;
 import model.Itinerario;
 import model.Promocion;
@@ -21,7 +18,8 @@ public class PruebaPorConsolaDAO {
 	
 
 	public static void main(String[] args) throws IOException, SQLException {
-
+		//Importador.restauradorDeBaseDeDatos.restaurarDB();
+		
 		List<Atraccion> todasLasAtracciones = new ArrayList<Atraccion>();
 		List<Usuario> todosLosUsuarios = new ArrayList<Usuario>();
 		List<Promocion> todasLasPromociones = new ArrayList<Promocion>();
@@ -33,10 +31,10 @@ public class PruebaPorConsolaDAO {
 	//	lector.leerAtracciones(todasLasAtracciones);
 	//	lector.leerPromos(todasLasPromociones, todasLasAtracciones);
 		
-		PromocionDAOImpl promociones = new PromocionDAOImpl();
-		UsuarioDAOImpl usuarios = new UsuarioDAOImpl();
-		AtraccionDAOImpl atracciones = new AtraccionDAOImpl();
-		ItinerarioDAOImpl itinerarios = new ItinerarioDAOImpl();
+		PromocionDAOImpl promociones = DAOFactory.getPromocionDAO();
+		UsuarioDAOImpl usuarios = DAOFactory.getUsuarioDAO();
+		AtraccionDAOImpl atracciones = DAOFactory.getAtraccionDAO();
+		ItinerarioDAOImpl itinerarios = DAOFactory.getItinerarioDAO();
 		
 		
 		todasLasAtracciones= atracciones.findAll();
@@ -75,7 +73,8 @@ public class PruebaPorConsolaDAO {
 			app.ofrecerTodo(todosLosUsuarios.get(i));
 
 			System.out.println(todosLosUsuarios.get(i).getNombre() + " va a ir a:");
-			List <Atraccion> itinerarioIndividual= new ArrayList<Atraccion>();
+			System.out.println(todosLosUsuarios.get(i).itinerarioToString());
+			/*List <Atraccion> itinerarioIndividual= new ArrayList<Atraccion>();
 			itinerarioIndividual=todosLosUsuarios.get(i).getItinerario();
 			for(Atraccion atraccion : itinerarioIndividual) {
 				System.out.println(atraccion);
@@ -86,16 +85,23 @@ public class PruebaPorConsolaDAO {
 				todosLosUsuarios= usuarios.findAll();
 				todosLosItinerarios= itinerarios.findAll();
 				
-			}
+			}*/
+			
+			app.actualizarUsuarios(todosLosUsuarios);
+			app.actualizarAtracciones(todasLasAtracciones);
+			
 			
 			System.out.println(" \n \n FIN DE USUARIO \n \n");
 			
 			
 
 		}
+
+		todasLasAtracciones= atracciones.findAll();
+		todosLosUsuarios= usuarios.findAll();
+		todosLosItinerarios= itinerarios.findAll();
 		System.out.println("FIN DE LA APP. Gracias por utilizar Tierra Media APP");
 		
-
 
 	}
 	

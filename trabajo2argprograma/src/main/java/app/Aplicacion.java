@@ -1,21 +1,26 @@
 package app;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import comparadores.*;
+import comparadores.ComparadorAtraccion;
+import comparadores.ComparadorPromocion;
 import dao.AtraccionDAOImpl;
+import dao.DAOFactory;
 import dao.ItinerarioDAOImpl;
+import dao.MissingDataException;
 import dao.UsuarioDAOImpl;
 import jdbc.ConnectionProvider;
-import model.*;
+import model.Atraccion;
+import model.Itinerario;
+import model.Promocion;
+import model.TipoDeAtraccion;
+import model.Usuario;
 
 //La aplicacion se encarga del manejo y organizacion de todas las atracciones y promociones disponibles.
 
@@ -33,8 +38,8 @@ public class Aplicacion {
 	List<Promocion> promocionesDePaisaje = new ArrayList<Promocion>();
 	
 	
-	AtraccionDAOImpl AtrImp= new AtraccionDAOImpl();
-	UsuarioDAOImpl UserImp= new UsuarioDAOImpl();
+	AtraccionDAOImpl atrImp= DAOFactory.getAtraccionDAO();
+	UsuarioDAOImpl userImp= DAOFactory.getUsuarioDAO();
 
 
 	// El constructor recibe una lista de atracciones
@@ -98,13 +103,13 @@ public class Aplicacion {
 
 		System.out.println("Bienvenido " + unUsuario.getNombre() + ", vamos a comenzar: \n\n");
 		
-		System.out.println("Ya vas a ir a: \n\n");
+		System.out.println("Ya vas a ir a: \n");
 		
 		for(Atraccion atraccion : unUsuario.getItinerario()) {
 			System.out.println(atraccion);
 		}
 		
-		System.out.println("A donde mas te gustaria ir?");
+		System.out.println("\n A donde mas te gustaria ir?");
 
 
 		switch(unUsuario.getAtraccionFavorita()) {
@@ -138,15 +143,15 @@ public class Aplicacion {
 
 		/////////////////////////////////////////////////////
 
-		crearArchivoUsuario(unUsuario);
+		//crearArchivoUsuario(unUsuario);
 		
-		ItinerarioDAOImpl cargadorDeItinerario= new ItinerarioDAOImpl();
+		ItinerarioDAOImpl cargadorDeItinerario= DAOFactory.getItinerarioDAO();
 		
-		cargadorDeItinerario.cargarItinerarioUser(unUsuario);
+		//cargadorDeItinerario.cargarItinerarioUser(unUsuario);
 
 	}
 	
-	public void crearArchivoUsuario(Usuario unUsuario) throws IOException {
+	/*public void crearArchivoUsuario(Usuario unUsuario) throws IOException {
 		
 		BufferedWriter bw = null;
 
@@ -170,83 +175,82 @@ public class Aplicacion {
 			bw.close();
 		}
 
-	}
+	}*/
 	
 	
-public void separarItinerario(List<Usuario>  todosLosUsuarios, List<Itinerario> todoElItinerario) {
-	
+	public void separarItinerario(List<Usuario> todosLosUsuarios, List<Itinerario> todoElItinerario) {
 
-    for(Usuario cadaUsuario :todosLosUsuarios) {
-    	
-    	cadaUsuario.vaciarItinerario();
-    	
-    	
-        for(Itinerario cadaItinerario: todoElItinerario) {
-        	
-        	
-        	if(cadaUsuario.getNombre().equals ( cadaItinerario.getUsuario().getNombre())   ) {
-        		
+		for (Usuario cadaUsuario : todosLosUsuarios) {
 
-        		cadaUsuario.agregarAlItinerario(cadaItinerario.getAtraccion());
-        		
-        		
-        	}
-        	
-        	
-        }
-                
- 
-      }
-	
-	
-	
-	
-	
-	
+			cadaUsuario.vaciarItinerario();
+
+			for (Itinerario cadaItinerario : todoElItinerario) {
+
+				if (cadaUsuario.getNombre().equals(cadaItinerario.getUsuario().getNombre())) {
+
+					cadaUsuario.agregarAlItinerario(cadaItinerario.getAtraccion());
+
+				}
+
+			}
+
+		}
 	}
 
 
-public void borrarItinerario() throws SQLException {
+	public void borrarItinerario() throws SQLException {
 	
-	String sql = "DELETE FROM itinerarios";
+		String sql = "DELETE FROM itinerarios";
 		
-		Connection conn = ConnectionProvider.getConnection();
+			Connection conn = ConnectionProvider.getConnection();
 
-		PreparedStatement statement = conn.prepareStatement(sql);
+			PreparedStatement statement = conn.prepareStatement(sql);
 
-		statement.executeUpdate();
-}
-
-
-public void actualizarAtracciones(List<Atraccion> atracciones ) throws SQLException {
-	
-	
-	for(Atraccion atr: atracciones){
-		
-	AtrImp.update(atr);
-		
+			statement.executeUpdate();
 	}
-	
 
-}
 
-public void actualizarUsuarios(List<Usuario> usuarios ) throws SQLException {
-	
-	
-	for(Usuario user: usuarios){
-		
-	UserImp.update(user);
-		
+	public void actualizarAtracciones(List<Atraccion> atracciones) throws SQLException {
+
+		for (Atraccion atr : atracciones) {
+
+			atrImp.update(atr);
+
+		}
+
 	}
-	
 
-}
+	public void actualizarUsuarios(List<Usuario> usuarios) throws SQLException {
 
+		for (Usuario user : usuarios) {
 
+			userImp.update(user);
 
+		}
 
+	}
+//TODO fijarse si sirve
+	public boolean compararItinerario(Usuario usuario) {
+		try {
+			String nombre= usuario.getNombre();
+			
+			String sql="SELECT id_atr FROM itinerarios WHERE id_usuario= ? ";
+			Connection conn= ConnectionProvider.getConnection();
+			PreparedStatement statement= conn.prepareStatement(sql);
+			statement.setInt(1, DAOFactory.getUsuarioDAO().findIDByNombre(nombre));
+			ResultSet resultado= statement.executeQuery();
+			
+			List<Atraccion> itinerarioCompleto= new ArrayList<Atraccion>();
+			
+			while(resultado.next()) {
+				Itinerario aux= DAOFactory.getItinerarioDAO().toItinerario(resultado) ;
+				itinerarioCompleto.add(aux.getAtraccion());
+			}
+			return usuario.getItinerario().equals(itinerarioCompleto);
+			
+		} catch(Exception e) {
+			throw new MissingDataException(e);
+		}
 
-	
-	
-
+	}
 }

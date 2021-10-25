@@ -57,7 +57,15 @@ public class Usuario {
 		this.itinerario=new ArrayList<Atraccion>();
 	}
 	
-	
+	public String itinerarioToString() {
+		String retorno="";
+		for(int i=0; i<itinerario.size() ; i++) {
+			retorno+=itinerario.get(i).getNombre();
+			retorno+="\n";
+		}
+		
+		return retorno;
+	}
 	
 	
 	
