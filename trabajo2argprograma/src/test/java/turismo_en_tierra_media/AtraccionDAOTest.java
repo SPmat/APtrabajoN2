@@ -41,6 +41,8 @@ public class AtraccionDAOTest {
 		assertEquals(erebor, factory.findByNombre("Erebor"));
 	}
 	
+	
+	
 	@Test
 	public void insertarYEliminar() {
 		Atraccion atraccion= new Atraccion("Mi casa", 2, 8, 5, TipoDeAtraccion.PAISAJE);

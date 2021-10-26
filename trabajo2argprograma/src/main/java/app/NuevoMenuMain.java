@@ -31,9 +31,10 @@ public class NuevoMenuMain {
 	//	lector.leerAtracciones(todasLasAtracciones);
 	//	lector.leerPromos(todasLasPromociones, todasLasAtracciones);
 		
-		PromocionDAOImpl promociones = new PromocionDAOImpl();
+		
 		UsuarioDAOImpl usuarios = new UsuarioDAOImpl();
 		AtraccionDAOImpl atracciones = new AtraccionDAOImpl();
+		PromocionDAOImpl promociones = new PromocionDAOImpl();
 		ItinerarioDAOImpl itinerarios = new ItinerarioDAOImpl();
 		
 		
@@ -96,7 +97,10 @@ public class NuevoMenuMain {
 					app.ofrecerTodo(todosLosUsuarios.get(i));
 
 					System.out.println(todosLosUsuarios.get(i).getNombre() + " va a ir a:");
-					List <Atraccion> itinerarioIndividual= new ArrayList<Atraccion>();
+					System.out.println(todosLosUsuarios.get(i).itinerarioToString());
+					
+					//se reemplaza por la nueva funcion itinerarioToString
+					/*List <Atraccion> itinerarioIndividual= new ArrayList<Atraccion>();
 					itinerarioIndividual=todosLosUsuarios.get(i).getItinerario();
 					
 					
@@ -104,15 +108,20 @@ public class NuevoMenuMain {
 											
 						System.out.println(atraccion);
 							
-					}
+					}*/
 					
 					app.actualizarUsuarios(todosLosUsuarios);
-					app.actualizarAtracciones(todasLasAtracciones);
-					todasLasAtracciones= atracciones.findAll();
-					todosLosUsuarios= usuarios.findAll();
-					todosLosItinerarios= itinerarios.findAll();
+					//app.actualizarAtracciones(todasLasAtracciones);
+					//app.actualizarPromociones(todasLasPromociones);
 					
 					System.out.println(" \n \n FIN DE USUARIO \n \n");
+
+					//para mantener igualadas las listas con la base de datos
+					
+					//todasLasAtracciones= atracciones.findAll();
+					//todosLosUsuarios= usuarios.findAll();
+					//todosLosItinerarios= itinerarios.findAll();
+					
 					
 					
 

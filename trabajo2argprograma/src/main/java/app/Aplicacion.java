@@ -3,7 +3,6 @@ package app;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +11,7 @@ import comparadores.ComparadorAtraccion;
 import comparadores.ComparadorPromocion;
 import dao.AtraccionDAOImpl;
 import dao.DAOFactory;
-import dao.ItinerarioDAOImpl;
-import dao.MissingDataException;
+import dao.PromocionDAOImpl;
 import dao.UsuarioDAOImpl;
 import jdbc.ConnectionProvider;
 import model.Atraccion;
@@ -40,6 +38,7 @@ public class Aplicacion {
 	
 	AtraccionDAOImpl atrImp= DAOFactory.getAtraccionDAO();
 	UsuarioDAOImpl userImp= DAOFactory.getUsuarioDAO();
+	PromocionDAOImpl promoImp= DAOFactory.getPromocionDAO();
 
 
 	// El constructor recibe una lista de atracciones
@@ -105,36 +104,48 @@ public class Aplicacion {
 		
 		System.out.println("Ya vas a ir a: \n");
 		
-		for(Atraccion atraccion : unUsuario.getItinerario()) {
-			System.out.println(atraccion);
-		}
+		System.out.println(unUsuario.itinerarioToString());
 		
 		System.out.println("\n A donde mas te gustaria ir?");
-
+		//para que empiece actualizado
+		this.actualizarDesdeBaseDeDatos();
 
 		switch(unUsuario.getAtraccionFavorita()) {
 			
 		case PAISAJE:
+			//luego de sugerir cada cosa actualiza los datos para que tengan los cupos al dia
 			Sugeridor.sugerirPromos(unUsuario, promocionesDePaisaje);
+			this.actualizarDesdeBaseDeDatos();
 			Sugeridor.sugerirAtracciones(unUsuario, atraccionesDePaisaje);
+			this.actualizarDesdeBaseDeDatos();
 			Sugeridor.sugerirPromosNoFavoritas(unUsuario, todasLasPromociones);
+			this.actualizarDesdeBaseDeDatos();
 			Sugeridor.sugerirAtraccionesNoFavoritas(unUsuario, todasLasAtracciones);
+			this.actualizarDesdeBaseDeDatos();
 			break;
 
 		case DEGUSTACION:
 			
 			Sugeridor.sugerirPromos(unUsuario, promocionesDeDegustacion);
+			this.actualizarDesdeBaseDeDatos();
 			Sugeridor.sugerirAtracciones(unUsuario, atraccionesDeDegustacion);
+			this.actualizarDesdeBaseDeDatos();
 			Sugeridor.sugerirPromosNoFavoritas(unUsuario, todasLasPromociones);
+			this.actualizarDesdeBaseDeDatos();
 			Sugeridor.sugerirAtraccionesNoFavoritas(unUsuario, todasLasAtracciones);
+			this.actualizarDesdeBaseDeDatos();
 			break;
 
 		case AVENTURA:
 			
 			Sugeridor.sugerirPromos(unUsuario, promocionesDeAventura);
+			this.actualizarDesdeBaseDeDatos();
 			Sugeridor.sugerirAtracciones(unUsuario, atraccionesDeAventura);
+			this.actualizarDesdeBaseDeDatos();
 			Sugeridor.sugerirPromosNoFavoritas(unUsuario, todasLasPromociones);
+			this.actualizarDesdeBaseDeDatos();
 			Sugeridor.sugerirAtraccionesNoFavoritas(unUsuario, todasLasAtracciones);
+			this.actualizarDesdeBaseDeDatos();
 			break;
 
 		case DEFAULT:
@@ -145,7 +156,7 @@ public class Aplicacion {
 
 		//crearArchivoUsuario(unUsuario);
 		
-		ItinerarioDAOImpl cargadorDeItinerario= DAOFactory.getItinerarioDAO();
+		//ItinerarioDAOImpl cargadorDeItinerario= DAOFactory.getItinerarioDAO();
 		
 		//cargadorDeItinerario.cargarItinerarioUser(unUsuario);
 
@@ -177,6 +188,13 @@ public class Aplicacion {
 
 	}*/
 	
+	//metodo para que los datos de las atracciones se mantengan actualizados
+	//a pesar de que los cambios se hagan en distintos objetos
+	public void actualizarDesdeBaseDeDatos() {
+		this.todasLasAtracciones= DAOFactory.getAtraccionDAO().findAll();
+		this.todasLasPromociones= DAOFactory.getPromocionDAO().findAll();
+		this.separarEnListas();
+	}
 	
 	public void separarItinerario(List<Usuario> todosLosUsuarios, List<Itinerario> todoElItinerario) {
 
@@ -209,7 +227,7 @@ public class Aplicacion {
 			statement.executeUpdate();
 	}
 
-
+//TODO fijarse si sigue sirviendo
 	public void actualizarAtracciones(List<Atraccion> atracciones) throws SQLException {
 
 		for (Atraccion atr : atracciones) {
@@ -229,27 +247,14 @@ public class Aplicacion {
 		}
 
 	}
-//TODO fijarse si sirve
-	public boolean compararItinerario(Usuario usuario) {
-		try {
-			String nombre= usuario.getNombre();
-			
-			String sql="SELECT id_atr FROM itinerarios WHERE id_usuario= ? ";
-			Connection conn= ConnectionProvider.getConnection();
-			PreparedStatement statement= conn.prepareStatement(sql);
-			statement.setInt(1, DAOFactory.getUsuarioDAO().findIDByNombre(nombre));
-			ResultSet resultado= statement.executeQuery();
-			
-			List<Atraccion> itinerarioCompleto= new ArrayList<Atraccion>();
-			
-			while(resultado.next()) {
-				Itinerario aux= DAOFactory.getItinerarioDAO().toItinerario(resultado) ;
-				itinerarioCompleto.add(aux.getAtraccion());
-			}
-			return usuario.getItinerario().equals(itinerarioCompleto);
-			
-		} catch(Exception e) {
-			throw new MissingDataException(e);
+
+//TODO fijarse si sigue sirviendo
+	public void actualizarPromociones(List<Promocion> promociones) throws SQLException {
+
+		for (Promocion promocion: promociones) {
+
+			promoImp.updateAtracciones(promocion);
+
 		}
 
 	}

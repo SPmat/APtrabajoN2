@@ -78,9 +78,11 @@ public class PromocionDAOImpl implements PromocionDAO{
 		}
 	}
 	
-	public int update(Promocion promocion) {
-		//no hay nada que actualizar
-		return 0;
+	public void updateAtracciones(Promocion promocion) {
+
+		for (Atraccion atraccion : promocion.getAtraccionesEnPromocion()) {
+			DAOFactory.getAtraccionDAO().update(atraccion);
+		}
 	}
 	
 	public Integer findByAtraccionesList(List<Atraccion> atracciones) {
@@ -151,6 +153,9 @@ public class PromocionDAOImpl implements PromocionDAO{
 		}
 	}
 	
+	
+//el metodo utiliza una lista de promociones ya hecha para que las atracciones a las que alguien se pueda
+//referir dentro de la promocion sean las mismas, y no objetos distintos.
 	public Promocion toPromocion(ResultSet resultado) {
 		try {
 			//si hay una tercera atraccion la tomo, si no no
@@ -180,10 +185,15 @@ public class PromocionDAOImpl implements PromocionDAO{
 			}
 			ResultSet resultadoDos = statement.executeQuery();
 			//los guardo en variables
+			
+			
 			//convierto los string en Atraccion
 			Atraccion atr1= DAOFactory.getAtraccionDAO().findByNombre(resultadoDos.getString("atr1"));
 			Atraccion atr2= DAOFactory.getAtraccionDAO().findByNombre(resultadoDos.getString("atr2"));
-			//las agrego a una lista para poder pasarlas como par�metro
+			
+			
+			
+			//las agrego a una lista para poder pasarlas como parametro
 			List<Atraccion> atracciones= new ArrayList<Atraccion>();
 			atracciones.add(atr1); 
 			atracciones.add(atr2);
@@ -203,6 +213,7 @@ public class PromocionDAOImpl implements PromocionDAO{
 					//dependiendo de si tiene 3 atracciones para agregar, la agrega o no
 					if(resultado.getString("id_atr3") != null) {
 						Atraccion atr3= DAOFactory.getAtraccionDAO().findByNombre(resultadoDos.getString("atr3"));
+						
 						atracciones.add(atr3);
 					}
 					retorno= new PromoAbsoluta(atracciones, valorPromo);
@@ -210,6 +221,7 @@ public class PromocionDAOImpl implements PromocionDAO{
 				case PORCENTUAL:
 					if(resultado.getString("id_atr3") != null) {
 						Atraccion atr3= DAOFactory.getAtraccionDAO().findByNombre(resultadoDos.getString("atr3"));
+						
 						atracciones.add(atr3);
 					}
 					retorno= new PromoPorcentual(atracciones, valorPromo);
@@ -217,6 +229,7 @@ public class PromocionDAOImpl implements PromocionDAO{
 				case AxB:
 					if(resultado.getString("id_atr3") != null) {
 						Atraccion atr3= DAOFactory.getAtraccionDAO().findByNombre(resultadoDos.getString("atr3"));
+						
 						atracciones.add(atr3);
 					}
 					retorno= new PromoAxB(atracciones);
@@ -237,4 +250,11 @@ public class PromocionDAOImpl implements PromocionDAO{
 	public void restaurar() {
 		//no necesita restauracion
 	}
+
+	@Override
+	public int update(Promocion t) {
+		//no hay nada que actualizar
+		return 0;
+	}
+
 }

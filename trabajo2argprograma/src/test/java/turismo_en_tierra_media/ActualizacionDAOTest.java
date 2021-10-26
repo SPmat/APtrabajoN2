@@ -32,20 +32,18 @@ import model.Usuario;
 
 public class ActualizacionDAOTest {
 
-			AtraccionDAO factory;
-			ItinerarioDAO facItinerario;
+	AtraccionDAO factory;
+	ItinerarioDAO facItinerario;
 
+	List<Atraccion> todasLasAtracciones = new ArrayList<Atraccion>();
+	List<Usuario> todosLosUsuarios = new ArrayList<Usuario>();
+	List<Promocion> todasLasPromociones = new ArrayList<Promocion>();
+	List<Itinerario> todosLosItinerarios = new ArrayList<Itinerario>();
 
-List<Atraccion> todasLasAtracciones = new ArrayList<Atraccion>();
-List<Usuario> todosLosUsuarios = new ArrayList<Usuario>();
-List<Promocion> todasLasPromociones = new ArrayList<Promocion>();
-List<Itinerario> todosLosItinerarios = new ArrayList<Itinerario>();
-
-PromocionDAOImpl promociones = new PromocionDAOImpl();
-UsuarioDAOImpl usuarios = new UsuarioDAOImpl();
-AtraccionDAOImpl atracciones = new AtraccionDAOImpl();
-ItinerarioDAOImpl itinerarios = new ItinerarioDAOImpl();
-
+	PromocionDAOImpl promociones = new PromocionDAOImpl();
+	UsuarioDAOImpl usuarios = new UsuarioDAOImpl();
+	AtraccionDAOImpl atracciones = new AtraccionDAOImpl();
+	ItinerarioDAOImpl itinerarios = new ItinerarioDAOImpl();
 
 	
 	@Before

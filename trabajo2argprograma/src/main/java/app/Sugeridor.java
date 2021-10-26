@@ -15,17 +15,23 @@ public class Sugeridor {
 //metodos synchronized para que no quede ninguna transaccion a la mitad	
 	private synchronized static void agregarYPagarPromo(Usuario unUsuario, Promocion unaPromocion) {
 		for (Atraccion cadaAtraccion : unaPromocion.getAtraccionesEnPromocion()) {
+			System.out.println(cadaAtraccion.getNombre()+ cadaAtraccion.getUsosDisponibles());
 			cadaAtraccion.reservarLugar(unUsuario);
 			DAOFactory.getItinerarioDAO().cargarAtraccion(cadaAtraccion, unUsuario);
-
+			System.out.println(cadaAtraccion.getNombre()+ cadaAtraccion.getUsosDisponibles());
 		}
 		unUsuario.pagar(unaPromocion);
+		DAOFactory.getPromocionDAO().updateAtracciones(unaPromocion);
 	}
 	
 	private synchronized static void agregarYPagar(Usuario unUsuario, Atraccion unaAtraccion) {
+		System.out.println(unaAtraccion.getNombre()+ unaAtraccion.getUsosDisponibles());
 		unaAtraccion.reservarLugar(unUsuario);
 		DAOFactory.getItinerarioDAO().cargarAtraccion(unaAtraccion, unUsuario);
 		unUsuario.pagar(unaAtraccion);
+		System.out.println(unaAtraccion.getNombre()+ unaAtraccion.getUsosDisponibles());
+		
+		DAOFactory.getAtraccionDAO().update(unaAtraccion);
 	}
 	
 	protected static void sugerirPromos(Usuario unUsuario, List<Promocion> unasPromociones) {

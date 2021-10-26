@@ -15,14 +15,22 @@ import org.junit.Test;
 import dao.DAOFactory;
 import dao.PromocionDAO;
 import jdbc.ConnectionProvider;
-import model.*;
+import model.Atraccion;
+import model.PromoAbsoluta;
+import model.PromoAxB;
+import model.PromoPorcentual;
+import model.TipoDeAtraccion;
 
 public class PromocionDAOTest {
 
 	//NOTA: los metodos que dicen "2" y "3" refieren a que se prueba con promociones
 	//de 2 y 3 atracciones, respectivamente.
 	
+	
+//TODO pasar atracciones a lista
+	
 	PromocionDAO factory;
+	List<Atraccion> atracciones= new ArrayList<Atraccion>();
 	@Before
 	public void setUp() {
 		factory= DAOFactory.getPromocionDAO();
