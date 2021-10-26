@@ -9,8 +9,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import Importador.LectorDeArchivos;
-import model.*;
+import dao.DAOFactory;
+import model.Atraccion;
+import model.Promocion;
+import model.TipoDePromo;
 
 public class PromocionesTest {
 
@@ -19,9 +21,8 @@ public class PromocionesTest {
 
 	@Before
 	public void setUp() {
-		LectorDeArchivos lector = new LectorDeArchivos();
-		lector.leerAtracciones(lasAtracciones);
-		lector.leerPromos(lasPromociones, lasAtracciones);
+		lasAtracciones= DAOFactory.getAtraccionDAO().findAll();
+		lasPromociones= DAOFactory.getPromocionDAO().findAll(lasAtracciones);
 	}
 	
 	@After

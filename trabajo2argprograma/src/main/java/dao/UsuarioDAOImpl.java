@@ -58,12 +58,6 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 			statement.setDouble(3, usuario.getTiempoDisponible());
 			statement.setString(4, usuario.getAtraccionFavorita().getNombreDeTipo());
 			int rows = statement.executeUpdate();
-
-			try {
-				conn.close();
-			} catch(Exception e) {
-				System.err.println("Hubo un problema cerrando la conexion a bd");
-			}
 			
 			return rows;
 		} catch(Exception e) {

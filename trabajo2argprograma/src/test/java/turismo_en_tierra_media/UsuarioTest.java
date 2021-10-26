@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import Importador.LectorDeArchivos;
+import dao.DAOFactory;
 import model.*;
 
 
@@ -19,8 +20,7 @@ public class UsuarioTest {
 	
 	@Before
 	public void setUp() {
-		LectorDeArchivos lector = new LectorDeArchivos();
-		lector.leerUsuarios(personas);
+		personas= DAOFactory.getUsuarioDAO().findAll();
 	}
 	
 	@After
@@ -30,15 +30,15 @@ public class UsuarioTest {
 	
 	@Test
 	public void pruebaDeLecturadeTipoDeAtraccion() {
-		assertEquals(TipoDeAtraccion.AVENTURA, personas.get(0).getAtraccionFavorita());
-		assertEquals(TipoDeAtraccion.DEGUSTACION, personas.get(1).getAtraccionFavorita());
+		assertEquals(TipoDeAtraccion.DEGUSTACION, personas.get(0).getAtraccionFavorita());
+		assertEquals(TipoDeAtraccion.AVENTURA, personas.get(1).getAtraccionFavorita());
 		assertEquals(TipoDeAtraccion.PAISAJE, personas.get(2).getAtraccionFavorita());
 		assertEquals(TipoDeAtraccion.PAISAJE, personas.get(3).getAtraccionFavorita());
 	}
 	
 	@Test
 	public void usuarioToString() {
-		assertEquals("Eowyn tiene 10 monedas, 8 horas libres y su tipo de atraccion favorito es aventura", personas.get(0).userInfo());
+		assertEquals("Sam tiene 36 monedas, 8 horas libres y su tipo de atraccion favorito es degustacion", personas.get(0).userInfo());
 	}
 	
 	@Test
@@ -56,16 +56,21 @@ public class UsuarioTest {
 	
 	@Test
 	public void atraccionesRestanTiempo() {
-		//TODO agregar solo las promociones/atracciones que se usan
-		List<Atraccion> lasAtracciones = new ArrayList<Atraccion>();
-		List<Promocion> lasPromociones = new ArrayList<Promocion>();
-		LectorDeArchivos lector = new LectorDeArchivos();
-		lector.leerAtracciones(lasAtracciones);
-		lector.leerPromos(lasPromociones, lasAtracciones);
-		personas.get(1).agregarAtraccion(lasAtracciones.get(2));	//Sam con 8 horas toma La Comarca de 6.5 horas.
-		assertEquals(1.5, personas.get(1).getTiempoDisponible(),0);
+		Atraccion atraccion1=new Atraccion("La Comarca", 3, 6.5, 150, TipoDeAtraccion.DEGUSTACION);
+		personas.get(0).agregarAtraccion(atraccion1);	//Sam con 8 horas toma La Comarca de 6.5 horas.
+		assertEquals(1.5, personas.get(0).getTiempoDisponible(),0);
 		
-		for(Atraccion atraccion: lasPromociones.get(18).getAtraccionesEnPromocion()) {
+		Atraccion atraccion2= new Atraccion("Minas Tirith", 5, 2.5, 25, TipoDeAtraccion.PAISAJE);
+		Atraccion atraccion3= new Atraccion("Abismo de Helm", 5, 2f, 15, TipoDeAtraccion.PAISAJE);
+		Atraccion atraccion4= new Atraccion("Rivendel", 10, 5f, 20, TipoDeAtraccion.PAISAJE);
+		
+		List<Atraccion> atracciones= new ArrayList<Atraccion>();
+		atracciones.add(atraccion2);
+		atracciones.add(atraccion3);
+		atracciones.add(atraccion4);
+		
+		PromoAxB promocion= new PromoAxB(atracciones);
+		for(Atraccion atraccion: promocion.getAtraccionesEnPromocion()) {
 			personas.get(4).agregarAtraccion(atraccion);			//Boromir con 50 horas toma Minas Tirith, Abismo de Helm, Rivendel de 9.5 horas.
 		}
 		assertEquals(40.5, personas.get(4).getTiempoDisponible(), 0);		
@@ -73,16 +78,20 @@ public class UsuarioTest {
 	
 	@Test
 	public void pagaCorrectamente() {
-		//TODO agregar solo las promociones/atracciones que se usan
-		List<Atraccion> lasAtracciones = new ArrayList<Atraccion>();
-		List<Promocion> lasPromociones = new ArrayList<Promocion>();
-		LectorDeArchivos lector = new LectorDeArchivos();
-		lector.leerAtracciones(lasAtracciones);
-		lector.leerPromos(lasPromociones, lasAtracciones);
-		personas.get(1).pagar(lasAtracciones.get(2));		//Sam con 36 monedas paga La Comarca a 3 monedas.
-		assertEquals(33, personas.get(1).getPresupuesto());
+		Atraccion atraccion1= new Atraccion("La Comarca", 3, 6.5, 150, TipoDeAtraccion.DEGUSTACION);
+		personas.get(0).pagar(atraccion1);		//Sam con 36 monedas paga La Comarca a 3 monedas.
+		assertEquals(33, personas.get(0).getPresupuesto());
 		
-		personas.get(3).pagar(lasPromociones.get(16));		//Galadriel con 120 monedas paga Minas Tirith y Erebor a 8 monedas.
+		Atraccion atraccion2= new Atraccion("Minas Tirith", 5, 2.5, 25, TipoDeAtraccion.PAISAJE);
+		Atraccion atraccion3= new Atraccion("Erebor", 12, 3, 32, TipoDeAtraccion.PAISAJE);
+		
+		List<Atraccion> atraccionesPromo= new ArrayList<Atraccion>();
+		atraccionesPromo.add(atraccion2);
+		atraccionesPromo.add(atraccion3);
+		
+		PromoAbsoluta promocion= new PromoAbsoluta(atraccionesPromo, 8);
+		
+		personas.get(3).pagar(promocion);		//Galadriel con 120 monedas paga Minas Tirith y Erebor a 8 monedas.
 		assertEquals(112, personas.get(3).getPresupuesto());
 	}
 }

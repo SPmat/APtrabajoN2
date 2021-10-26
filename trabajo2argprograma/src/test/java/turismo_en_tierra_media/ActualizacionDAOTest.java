@@ -1,18 +1,14 @@
 package turismo_en_tierra_media;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import app.Aplicacion;
@@ -23,11 +19,9 @@ import dao.ItinerarioDAO;
 import dao.ItinerarioDAOImpl;
 import dao.PromocionDAOImpl;
 import dao.UsuarioDAOImpl;
-import jdbc.ConnectionProvider;
 import model.Atraccion;
 import model.Itinerario;
 import model.Promocion;
-import model.TipoDeAtraccion;
 import model.Usuario;
 
 public class ActualizacionDAOTest {
@@ -53,7 +47,7 @@ public class ActualizacionDAOTest {
 		
 		todasLasAtracciones= atracciones.findAll();
 		todosLosUsuarios= usuarios.findAll();
-		todasLasPromociones= promociones.findAll();
+		todasLasPromociones= promociones.findAll(todasLasAtracciones);
 		todosLosItinerarios= itinerarios.findAll();
 		
 

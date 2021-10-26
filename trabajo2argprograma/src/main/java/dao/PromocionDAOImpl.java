@@ -293,14 +293,9 @@ public class PromocionDAOImpl implements PromocionDAO{
 		return 0;
 	}
 
-	@Override
 	public List<Promocion> findAll() {
 		return null;
 	}
 
-	@Override
-	public Promocion findById(Integer id) {
-		return null;
-	}
 
 }

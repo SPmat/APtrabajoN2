@@ -111,6 +111,9 @@ public class NuevoMenuMain {
 					}*/
 					
 					app.actualizarUsuarios(todosLosUsuarios);
+					//las promociones y atracciones se actualizan en los metodos
+					//agregarYPagar();
+					
 					//app.actualizarAtracciones(todasLasAtracciones);
 					//app.actualizarPromociones(todasLasPromociones);
 					

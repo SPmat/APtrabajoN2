@@ -13,7 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import dao.DAOFactory;
-import dao.PromocionDAO;
+import dao.PromocionDAOImpl;
 import jdbc.ConnectionProvider;
 import model.Atraccion;
 import model.PromoAbsoluta;
@@ -29,7 +29,7 @@ public class PromocionDAOTest {
 	
 //TODO pasar atracciones a lista
 	
-	PromocionDAO factory;
+	PromocionDAOImpl factory;
 	List<Atraccion> atracciones= new ArrayList<Atraccion>();
 	@Before
 	public void setUp() {
@@ -40,6 +40,7 @@ public class PromocionDAOTest {
 	@After
 	public void tearDown(){
 		factory=null;
+		atracciones=null;
 	}
 
 	@Test
@@ -52,11 +53,11 @@ public class PromocionDAOTest {
 		Atraccion erebor= new Atraccion("Erebor", 12, 3, 32, TipoDeAtraccion.PAISAJE);
 		Atraccion helm= new Atraccion("Abismo de Helm", 5, 2, 15, TipoDeAtraccion.PAISAJE);
 		
-		List<Atraccion> atracciones= new ArrayList<Atraccion>();
-		atracciones.add(erebor);
-		atracciones.add(helm);
+		List<Atraccion> atraccionesL= new ArrayList<Atraccion>();
+		atraccionesL.add(erebor);
+		atraccionesL.add(helm);
 		
-		assertEquals((Integer)18, factory.findByAtraccionesList(atracciones));
+		assertEquals((Integer)18, factory.findByAtraccionesList(atraccionesL));
 	}
 	
 	@Test
@@ -65,12 +66,12 @@ public class PromocionDAOTest {
 		Atraccion helm= new Atraccion("Abismo de Helm", 5, 2, 15, TipoDeAtraccion.PAISAJE);
 		Atraccion harad= new Atraccion("Harad",3,1,7, TipoDeAtraccion.PAISAJE);
 		
-		List<Atraccion> atracciones= new ArrayList<Atraccion>();
-		atracciones.add(erebor);
-		atracciones.add(helm);
-		atracciones.add(harad);
+		List<Atraccion> atraccionesL= new ArrayList<Atraccion>();
+		atraccionesL.add(erebor);
+		atraccionesL.add(helm);
+		atraccionesL.add(harad);
 		
-		assertEquals((Integer)20, factory.findByAtraccionesList(atracciones));
+		assertEquals((Integer)20, factory.findByAtraccionesList(atraccionesL));
 	}
 	
 	@Test
@@ -79,14 +80,14 @@ public class PromocionDAOTest {
 		Atraccion helm= new Atraccion("Abismo de Helm", 5, 2, 15, TipoDeAtraccion.PAISAJE);
 		Atraccion harad= new Atraccion("Harad",3,1,7, TipoDeAtraccion.PAISAJE);
 		
-		List<Atraccion> atracciones= new ArrayList<Atraccion>();
-		atracciones.add(erebor);
-		atracciones.add(helm);
-		atracciones.add(harad);
+		List<Atraccion> atraccionesL= new ArrayList<Atraccion>();
+		atraccionesL.add(erebor);
+		atraccionesL.add(helm);
+		atraccionesL.add(harad);
 		
-		PromoAxB promocion= new PromoAxB(atracciones);
-		assertEquals(promocion, factory.findById(20));
-		assertEquals(promocion, factory.findById(factory.findByAtraccionesList(atracciones)));
+		PromoAxB promocion= new PromoAxB(atraccionesL);
+		assertEquals(promocion, factory.findById((Integer)20, atracciones));
+		assertEquals(promocion, factory.findById(factory.findByAtraccionesList(atraccionesL), atracciones));
 	}
 	
 	@Test
@@ -94,17 +95,17 @@ public class PromocionDAOTest {
 		Atraccion erebor= new Atraccion("Erebor", 12, 3, 32, TipoDeAtraccion.PAISAJE);
 		Atraccion harad= new Atraccion("Harad",3,1,7, TipoDeAtraccion.PAISAJE);
 		
-		List<Atraccion> atracciones= new ArrayList<Atraccion>();
-		atracciones.add(erebor);
-		atracciones.add(harad);
+		List<Atraccion> atraccionesL= new ArrayList<Atraccion>();
+		atraccionesL.add(erebor);
+		atraccionesL.add(harad);
 		
-		PromoAxB promocion= new PromoAxB(atracciones);
+		PromoAxB promocion= new PromoAxB(atraccionesL);
 		factory.insert(promocion);
-		assertEquals(promocion, factory.findById(factory.findByAtraccionesList(atracciones)));
+		assertEquals(promocion, factory.findById(factory.findByAtraccionesList(atraccionesL),atracciones));
 		
 		factory.delete(promocion);
 		//no se pone el findById porque espero null y al buscar el id de null tira error
-		assertEquals(null, factory.findByAtraccionesList(atracciones));
+		assertEquals(null, factory.findByAtraccionesList(atraccionesL));
 	}
 	
 	@Test
@@ -113,18 +114,18 @@ public class PromocionDAOTest {
 		Atraccion edoras= new Atraccion("Edoras", 4, 3, 25, TipoDeAtraccion.DEGUSTACION);
 		Atraccion comarca= new Atraccion("La comarca", 3, 6.5, 150, TipoDeAtraccion.DEGUSTACION);
 		
-		List<Atraccion> atracciones= new ArrayList<Atraccion>();
-		atracciones.add(lothlorien);
-		atracciones.add(edoras);
-		atracciones.add(comarca);
+		List<Atraccion> atraccionesL= new ArrayList<Atraccion>();
+		atraccionesL.add(lothlorien);
+		atraccionesL.add(edoras);
+		atraccionesL.add(comarca);
 		
-		PromoAbsoluta promocion= new PromoAbsoluta(atracciones, 50);
+		PromoAbsoluta promocion= new PromoAbsoluta(atraccionesL, 50);
 		factory.insert(promocion);
-		assertEquals(promocion, factory.findById(factory.findByAtraccionesList(atracciones)));
+		assertEquals(promocion, factory.findById(factory.findByAtraccionesList(atraccionesL), atracciones));
 		
 		factory.delete(promocion);
 		//no se pone el findById porque espero null y al buscar el id de null tira error
-		assertEquals(null, factory.findByAtraccionesList(atracciones));
+		assertEquals(null, factory.findByAtraccionesList(atraccionesL));
 	}
 	
 	@Test
@@ -139,12 +140,12 @@ public class PromocionDAOTest {
 			Atraccion edoras= new Atraccion("Edoras", 4, 3, 25, TipoDeAtraccion.DEGUSTACION);
 			Atraccion gondor= new Atraccion("Gondor", 20, 3, 10, TipoDeAtraccion.DEGUSTACION);
 			
-			List<Atraccion> atracciones= new ArrayList<Atraccion>();
-			atracciones.add(lothlorien);
-			atracciones.add(edoras);
-			atracciones.add(gondor);
+			List<Atraccion> atraccionesL= new ArrayList<Atraccion>();
+			atraccionesL.add(lothlorien);
+			atraccionesL.add(edoras);
+			atraccionesL.add(gondor);
 			
-			PromoPorcentual promocion= new PromoPorcentual(atracciones,15);
+			PromoPorcentual promocion= new PromoPorcentual(atraccionesL,15);
 			
 			assertEquals(promocion, factory.toPromocion(resultado, atracciones));
 		} catch(Exception e) {
@@ -164,12 +165,12 @@ public class PromocionDAOTest {
 				Atraccion helm= new Atraccion("Abismo de Helm", 5, 2, 15, TipoDeAtraccion.PAISAJE);
 				Atraccion harad= new Atraccion("Harad",3,1,7, TipoDeAtraccion.PAISAJE);
 				
-				List<Atraccion> atracciones= new ArrayList<Atraccion>();
-				atracciones.add(erebor);
-				atracciones.add(helm);
-				atracciones.add(harad);
+				List<Atraccion> atraccionesL= new ArrayList<Atraccion>();
+				atraccionesL.add(erebor);
+				atraccionesL.add(helm);
+				atraccionesL.add(harad);
 				
-				PromoAxB promocion= new PromoAxB(atracciones);
+				PromoAxB promocion= new PromoAxB(atraccionesL);
 				
 				assertEquals(promocion, factory.toPromocion(resultado, atracciones));
 			} catch(Exception e) {
