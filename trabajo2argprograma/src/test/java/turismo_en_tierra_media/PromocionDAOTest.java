@@ -34,6 +34,7 @@ public class PromocionDAOTest {
 	@Before
 	public void setUp() {
 		factory= DAOFactory.getPromocionDAO();
+		atracciones= DAOFactory.getAtraccionDAO().findAll();
 	}
 
 	@After
@@ -145,7 +146,7 @@ public class PromocionDAOTest {
 			
 			PromoPorcentual promocion= new PromoPorcentual(atracciones,15);
 			
-			assertEquals(promocion, factory.toPromocion(resultado));
+			assertEquals(promocion, factory.toPromocion(resultado, atracciones));
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -170,7 +171,7 @@ public class PromocionDAOTest {
 				
 				PromoAxB promocion= new PromoAxB(atracciones);
 				
-				assertEquals(promocion, factory.toPromocion(resultado));
+				assertEquals(promocion, factory.toPromocion(resultado, atracciones));
 			} catch(Exception e) {
 				e.printStackTrace();
 			}

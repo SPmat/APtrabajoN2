@@ -40,7 +40,7 @@ public class NuevoMenuMain {
 		
 		todasLasAtracciones= atracciones.findAll();
 		todosLosUsuarios= usuarios.findAll();
-		todasLasPromociones= promociones.findAll();
+		todasLasPromociones= promociones.findAll(todasLasAtracciones);
 		todosLosItinerarios= itinerarios.findAll();
 		
 

@@ -107,45 +107,31 @@ public class Aplicacion {
 		System.out.println(unUsuario.itinerarioToString());
 		
 		System.out.println("\n A donde mas te gustaria ir?");
-		//para que empiece actualizado
-		this.actualizarDesdeBaseDeDatos();
 
 		switch(unUsuario.getAtraccionFavorita()) {
 			
 		case PAISAJE:
 			//luego de sugerir cada cosa actualiza los datos para que tengan los cupos al dia
 			Sugeridor.sugerirPromos(unUsuario, promocionesDePaisaje);
-			this.actualizarDesdeBaseDeDatos();
 			Sugeridor.sugerirAtracciones(unUsuario, atraccionesDePaisaje);
-			this.actualizarDesdeBaseDeDatos();
 			Sugeridor.sugerirPromosNoFavoritas(unUsuario, todasLasPromociones);
-			this.actualizarDesdeBaseDeDatos();
 			Sugeridor.sugerirAtraccionesNoFavoritas(unUsuario, todasLasAtracciones);
-			this.actualizarDesdeBaseDeDatos();
 			break;
 
 		case DEGUSTACION:
 			
 			Sugeridor.sugerirPromos(unUsuario, promocionesDeDegustacion);
-			this.actualizarDesdeBaseDeDatos();
 			Sugeridor.sugerirAtracciones(unUsuario, atraccionesDeDegustacion);
-			this.actualizarDesdeBaseDeDatos();
 			Sugeridor.sugerirPromosNoFavoritas(unUsuario, todasLasPromociones);
-			this.actualizarDesdeBaseDeDatos();
 			Sugeridor.sugerirAtraccionesNoFavoritas(unUsuario, todasLasAtracciones);
-			this.actualizarDesdeBaseDeDatos();
 			break;
 
 		case AVENTURA:
 			
 			Sugeridor.sugerirPromos(unUsuario, promocionesDeAventura);
-			this.actualizarDesdeBaseDeDatos();
 			Sugeridor.sugerirAtracciones(unUsuario, atraccionesDeAventura);
-			this.actualizarDesdeBaseDeDatos();
 			Sugeridor.sugerirPromosNoFavoritas(unUsuario, todasLasPromociones);
-			this.actualizarDesdeBaseDeDatos();
 			Sugeridor.sugerirAtraccionesNoFavoritas(unUsuario, todasLasAtracciones);
-			this.actualizarDesdeBaseDeDatos();
 			break;
 
 		case DEFAULT:
