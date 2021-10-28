@@ -95,7 +95,7 @@ public class Usuario {
 		this.itinerario.add(unaAtraccion);
 	}
 
-	//cobra dependiendo si es una promocion o atraccion
+	//paga dependiendo si es una promocion o atraccion
 	public void pagar(Promocion unaPromocion) {
 		this.presupuesto -= unaPromocion.getValorPromo();
 	}

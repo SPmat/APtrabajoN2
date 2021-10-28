@@ -5,7 +5,7 @@ import java.util.List;
 public class PromoAbsoluta extends Promocion {
 
 /*
- * Toma como costo de la promocion al valor indicado con valorPromo (leido desde archivo).
+ * Toma como costo de la promocion al valor indicado con valorPromo.
  */
 	
 	

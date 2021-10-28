@@ -5,7 +5,7 @@ import java.util.List;
 public class PromoAxB extends Promocion {
 	
 	/*
-	 * Suma el valor de cada atracción de la lista sin tener en cuenta el valor de la última. 
+	 * Suma el valor de cada atraccion de la lista sin tener en cuenta el valor de la ultima. 
 	 */
 
 	public PromoAxB(List<Atraccion> atraccionesEnPromo) {

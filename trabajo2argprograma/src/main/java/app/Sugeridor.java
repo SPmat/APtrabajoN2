@@ -62,18 +62,7 @@ public class Sugeridor {
 				}
 
 				if (seleccion == 1) {
-
-				/*	bloque reemplazado por metodo con synchronized
-				 
-					for (Atraccion cadaAtraccion : cadaPromocion.getAtraccionesEnPromocion()) {
-
-						cadaAtraccion.reservarLugar(unUsuario);
-						
-						DAOFactory.getItinerarioDAO().cargarAtraccion(cadaAtraccion, unUsuario);
-
-					}
-					unUsuario.pagar(cadaPromocion);
-					*/
+					
 					agregarYPagarPromo(unUsuario, cadaPromocion);
 					System.out.println(unUsuario.getNombre() + ", adquiriste exitosamente la promocion.");
 					System.out.println("Tiempo disponible restante: " + unUsuario.getTiempoDisponible() + " horas.");
@@ -121,12 +110,6 @@ public class Sugeridor {
 
 				if (seleccion == 1) {
 
-					/*bloque reemplazado por metodo con synchronized
-					
-					cadaAtraccion.reservarLugar(unUsuario);
-					DAOFactory.getItinerarioDAO().cargarAtraccion(cadaAtraccion, unUsuario);
-					unUsuario.pagar(cadaAtraccion);
-					*/
 					agregarYPagar(unUsuario, cadaAtraccion);
 					System.out.println(unUsuario.getNombre() + ", adquiriste exitosamente la atraccion.");
 					System.out.println("Tiempo disponible restante: " + unUsuario.getTiempoDisponible() + " horas.");

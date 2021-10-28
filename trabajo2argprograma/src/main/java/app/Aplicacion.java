@@ -138,48 +138,6 @@ public class Aplicacion {
 			System.out.println("Hay una Atraccion cuyos datos no fueron correctamente ingresados.");
 		}
 
-		/////////////////////////////////////////////////////
-
-		//crearArchivoUsuario(unUsuario);
-		
-		//ItinerarioDAOImpl cargadorDeItinerario= DAOFactory.getItinerarioDAO();
-		
-		//cargadorDeItinerario.cargarItinerarioUser(unUsuario);
-
-	}
-	
-	/*public void crearArchivoUsuario(Usuario unUsuario) throws IOException {
-		
-		BufferedWriter bw = null;
-
-		try {
-			String ruta = "archivos_de_salida/"+unUsuario.getNombre()+".txt";
-			new File("archivos_de_salida/").mkdir();							// Se crea la carpeta para guardar los archivos de salida.		
-			//String ruta = unUsuario.getNombre() + ".txt";
-			String contenido = unUsuario.toString();
-			File file = new File(ruta);
-			// Si el archivo no existe es creado
-			if (!file.exists()) {
-				file.createNewFile();
-			}
-			FileWriter fw = new FileWriter(file);
-			bw = new BufferedWriter(fw);
-			bw.write(contenido);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			bw.close();
-		}
-
-	}*/
-	
-	//metodo para que los datos de las atracciones se mantengan actualizados
-	//a pesar de que los cambios se hagan en distintos objetos
-	public void actualizarDesdeBaseDeDatos() {
-		this.todasLasAtracciones= DAOFactory.getAtraccionDAO().findAll();
-		this.todasLasPromociones= DAOFactory.getPromocionDAO().findAll();
-		this.separarEnListas();
 	}
 	
 	public void separarItinerario(List<Usuario> todosLosUsuarios, List<Itinerario> todoElItinerario) {
@@ -213,7 +171,6 @@ public class Aplicacion {
 			statement.executeUpdate();
 	}
 
-//TODO fijarse si sigue sirviendo
 	public void actualizarAtracciones(List<Atraccion> atracciones) throws SQLException {
 
 		for (Atraccion atr : atracciones) {
@@ -229,17 +186,6 @@ public class Aplicacion {
 		for (Usuario user : usuarios) {
 
 			userImp.update(user);
-
-		}
-
-	}
-
-//TODO fijarse si sigue sirviendo
-	public void actualizarPromociones(List<Promocion> promociones) throws SQLException {
-
-		for (Promocion promocion: promociones) {
-
-			promoImp.updateAtracciones(promocion);
 
 		}
 

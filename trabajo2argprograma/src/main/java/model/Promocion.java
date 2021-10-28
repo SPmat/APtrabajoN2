@@ -46,7 +46,7 @@ public class Promocion {
 	}
 
 	public TipoDeAtraccion getTipoDeAtraccion() {
-		//asumiendo que est� validado que todas las atracciones son del mismo tipo
+		//asumiendo que esta validado que todas las atracciones son del mismo tipo
 		return this.atraccionesEnPromocion.get(0).getTipo();
 	}
 	
