@@ -59,9 +59,13 @@ public class Usuario {
 	
 	public String itinerarioToString() {
 		String retorno="";
-		for(int i=0; i<itinerario.size() ; i++) {
-			retorno+=itinerario.get(i).getNombre();
-			retorno+="\n";
+		if(itinerario.size()<1) {
+			retorno="[vacio] \n";
+		} else {
+			for (int i = 0; i < itinerario.size(); i++) {
+				retorno += itinerario.get(i).getNombre();
+				retorno += "\n";
+			}
 		}
 		
 		return retorno;

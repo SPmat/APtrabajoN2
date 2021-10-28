@@ -1,11 +1,11 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class Itinerario  {
 	
-	protected List<Atraccion> atraccionesEnItinerario = new ArrayList<Atraccion>();
+	//clase cuya unica funcion es traducir los datos de la base de datos
+	
+	
+	
 	protected Atraccion unaAtraccion;
 	protected Usuario unUsuario;
 	

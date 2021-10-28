@@ -171,38 +171,4 @@ public class AtraccionDAOImpl implements AtraccionDAO{
 			throw new MissingDataException(e);
 		}
 	}
-	
-	public void restaurar() {
-		try {
-
-			Connection conn = ConnectionProvider.getConnection();
-			int[] cupos= {
-					6, 		//moria
-					25, 	//minas tirith
-					150, 	//la comarca
-					4,		//mordor
-					15,		//abismo de helm
-					30, 	//lothlorien
-					32,		//erebor
-					12, 	//bosque negro
-					20,		//rivendel
-					10, 	//isengard
-					25,		//edoras
-					3,		//fangorn
-					10,		//gondor
-					7,		//harad
-					30		//palargir
-			};
-			for(int i=0; i<cupos.length; i++) {
-				String sql = "UPDATE atracciones SET usos_disponibles= ? WHERE id= ? ";
-				PreparedStatement statement = conn.prepareStatement(sql);
-				statement.setInt(1, cupos[i]);				
-				statement.setInt(2, i+1);				//el id se mueve a 1 numero mas que el recorrido del for ya que empieza en 1
-				statement.executeUpdate();
-			}
-			
-		} catch(Exception e) {
-			throw new MissingDataException(e);
-		}
-	}
 }

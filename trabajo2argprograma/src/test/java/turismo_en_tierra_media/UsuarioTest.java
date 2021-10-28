@@ -1,6 +1,6 @@
 package turismo_en_tierra_media;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,9 +9,12 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import Importador.LectorDeArchivos;
 import dao.DAOFactory;
-import model.*;
+import model.Atraccion;
+import model.PromoAbsoluta;
+import model.PromoAxB;
+import model.TipoDeAtraccion;
+import model.Usuario;
 
 
 public class UsuarioTest {

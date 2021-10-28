@@ -102,11 +102,13 @@ public class Aplicacion {
 
 		System.out.println("Bienvenido " + unUsuario.getNombre() + ", vamos a comenzar: \n\n");
 		
-		System.out.println("Ya vas a ir a: \n");
+		System.out.println("Tu itinerario actual incluye:");
 		
 		System.out.println(unUsuario.itinerarioToString());
 		
-		System.out.println("\n A donde mas te gustaria ir?");
+		System.out.println("Contas con " + unUsuario.getPresupuesto() + " monedas y " + unUsuario.getTiempoDisponible() + " horas disponibles.");
+		
+		System.out.println("\n A donde mas te gustaria ir? \n");
 
 		switch(unUsuario.getAtraccionFavorita()) {
 			

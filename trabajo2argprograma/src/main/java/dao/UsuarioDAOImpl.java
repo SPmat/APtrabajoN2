@@ -155,12 +155,6 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 			throw new MissingDataException(e);
 		}
 	}
-	
-	
-
-	
-	
-	
 
 	public Usuario toUsuario(ResultSet resultado) {
 		try {
@@ -175,36 +169,6 @@ public class UsuarioDAOImpl implements UsuarioDAO{
 			//retorno el objeto
 			return new Usuario(resultado.getString("nombre"), TipoDeAtraccion.valueOf(tipoAtraccion),
 					resultado.getInt("monedas"), resultado.getFloat("tiempo_libre"));
-		} catch(Exception e) {
-			throw new MissingDataException(e);
-		}
-	}
-
-	public void restaurar() {
-		try {
-
-			Connection conn = ConnectionProvider.getConnection();
-			int[] tiempo= {
-					8,		//sam
-					8,		//eowyn
-					5,		//gandalf
-					6,		//galadriel
-					50,		//boromir
-					60,		//gollum
-					9,		//legolas
-					7,		//frodo
-					15,		//sauron
-					9,		//arwen
-					30,		//gimli
-					16		//aragorn
-			};
-			for(int i=0; i<tiempo.length; i++) {
-				String sql = "UPDATE usuarios SET tiempo_libre= ? WHERE id= ? ";
-				PreparedStatement statement = conn.prepareStatement(sql);
-				statement.setInt(1, tiempo[i]);				
-				statement.setInt(2, i+1);				//el id se mueve a 1 numero mas que el recorrido del for ya que empieza en 1
-				statement.executeUpdate();
-			}
 		} catch(Exception e) {
 			throw new MissingDataException(e);
 		}

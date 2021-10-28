@@ -74,36 +74,6 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 			throw new MissingDataException(e);
 		}
 	}
-//TODO fijarse si sigue sirviendo
-	public int cargarItinerarioUser(Usuario usuario) {
-		
-		//this.encontrarIDPromo(usuario);
-		
-		try {
-			String sql = "INSERT INTO itinerarios (id_usuario, id_atr) VALUES (?, ?)";
-			
-			int rows=0;
-			
-
-			Connection conn = ConnectionProvider.getConnection();
-
-			for (Atraccion cadaAtraccion: usuario.getItinerario()) {
-				
-
-				PreparedStatement statement = conn.prepareStatement(sql);
-				
-				statement.setInt(1, unUser.findIDByNombre(usuario.getNombre()));
-				statement.setDouble(2, unaAtraccion.findIDByNombre(cadaAtraccion.getNombre()));
-				rows+= statement.executeUpdate();
-
-				}
-			
-			return rows;
-		} catch(Exception e) {
-			throw new MissingDataException(e);
-		}
-	}
-	
 
 	public Itinerario toItinerario(ResultSet resultado) {
 		try {
@@ -112,27 +82,6 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 			throw new MissingDataException(e);
 		}
 	}
-
-
-	public void restaurar(){
-		
-		try{
-			String sql = "DELETE FROM itinerarios";
-			
-			Connection conn = ConnectionProvider.getConnection();
-
-			PreparedStatement statement = conn.prepareStatement(sql);
-
-			statement.executeUpdate();
-			
-			
-		} catch(Exception e) {
-			throw new MissingDataException(e);
-		}
-	}
-
-	
-	
 	
 	public int delete(Itinerario t) {
 		return 0;
@@ -146,8 +95,5 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 	public int update(Itinerario t) {
 		return 0;
 	}
-
-
-
 
 }

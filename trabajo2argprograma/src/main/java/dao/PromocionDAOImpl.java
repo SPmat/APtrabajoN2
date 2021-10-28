@@ -282,10 +282,7 @@ public class PromocionDAOImpl implements PromocionDAO{
 			throw new MissingDataException(e);
 		}
 	}
-	
-	public void restaurar() {
-		//no necesita restauracion
-	}
+
 
 	@Override
 	public int update(Promocion t) {
@@ -294,6 +291,7 @@ public class PromocionDAOImpl implements PromocionDAO{
 	}
 
 	public List<Promocion> findAll() {
+		System.out.println("Advertencia: se esta usando un findAll() de promociones no implementado.");
 		return null;
 	}
 

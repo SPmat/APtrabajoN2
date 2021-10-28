@@ -14,7 +14,7 @@ public class restauradorDeBaseDeDatos {
     	
     	String ruta = System.getProperty("user.dir");
 
-        Path origenPath = FileSystems.getDefault().getPath( ruta+"/basededatosoriginal/tierra_media_basededatos.db" );
+        Path origenPath = FileSystems.getDefault().getPath( ruta+"/basededatosoriginal/tierra_media_basededatos_no_editar.db" );
         Path destinoPath = FileSystems.getDefault().getPath( ruta+"/tierra_media_basededatos.db" );
 
         
