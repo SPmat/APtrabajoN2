@@ -94,7 +94,7 @@ public class AtraccionDAOImpl implements AtraccionDAO{
 		}
 	}
 	
-//TODO fijarse si se usa
+	
 	public Atraccion findByNombre(String nombre) {
 		try {
 			String sql = "SELECT * FROM atracciones WHERE nombre = ?";
@@ -115,7 +115,6 @@ public class AtraccionDAOImpl implements AtraccionDAO{
 		}
 	}
 	
-//TODO fijarse si se usa	
 	public Atraccion findByID(int ID) {
 		try {
 			String sql = "SELECT * FROM atracciones WHERE ID  = ?";

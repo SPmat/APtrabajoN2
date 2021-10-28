@@ -27,8 +27,6 @@ public class PromocionDAOTest {
 	//de 2 y 3 atracciones, respectivamente.
 	
 	
-//TODO pasar atracciones a lista
-	
 	PromocionDAOImpl factory;
 	List<Atraccion> atracciones= new ArrayList<Atraccion>();
 	@Before
