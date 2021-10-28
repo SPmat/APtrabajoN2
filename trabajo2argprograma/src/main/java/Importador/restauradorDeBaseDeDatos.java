@@ -26,20 +26,18 @@ public class restauradorDeBaseDeDatos {
         
 		System.out.println(destinoPath);
 		
-		
-		ConnectionProvider conn = new ConnectionProvider();
-		
-		
-		conn.closeConnection();
-		
+		Connection conn = ConnectionProvider.closeConnection();
 		
         try {
             Files.copy(origenPath, destinoPath, StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             System.err.println(e);
         }
+        
+        Connection conn2 = ConnectionProvider.getConnection();
+        
     }
 
-    	
+
 
 }

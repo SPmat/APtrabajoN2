@@ -17,7 +17,7 @@ public class ConnectionProvider {
 	}
 	
 	
-	public void closeConnection() {
+	public static Connection closeConnection() {
 		
 		try {
             if (connection != null) {
@@ -26,6 +26,7 @@ public class ConnectionProvider {
         } catch (SQLException ex) {
             System.out.println(ex.getMessage());
         }
+		return connection;
 		
 		
 	}
