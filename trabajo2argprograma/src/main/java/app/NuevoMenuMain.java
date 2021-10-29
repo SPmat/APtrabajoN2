@@ -53,13 +53,15 @@ public class NuevoMenuMain {
 		
 		System.out.println("BIENVENIDO A TIERRA MEDIA!  \n \n ");	
 		
+		System.out.println("CUIDADO: Asegurese de ejecutar eclipse como administrador!  \n \n ");	
+		
 		while (opcion != 4) {
 
 
 			System.out.println("Seleccione una opcion de la siguiente lista:");	
 			System.out.println("1 - Ofrecer atracciones a todos los usuarios");	
 			System.out.println("2 - Ofrecer atracciones a un solo usuario");
-			System.out.println("3 - Reestablecer la base de datos (SOLO PUEDE HACERSE 1 VEZ)");
+			System.out.println("3 - Reestablecer la base de datos (El sistema se reiniciará)");
 			System.out.println("4 - Cerrar aplicacíon\n");
 			
 			opcion = entrada.nextInt();
@@ -148,6 +150,11 @@ public class NuevoMenuMain {
 				
 				restauradorDeBaseDeDatos.restaurarDB();
 				
+				
+				System.out.println(" \n \n Base de datos restaurada con exito! \n \n");		
+				
+				
+				opcion=4;
 				
 				break;
 				
