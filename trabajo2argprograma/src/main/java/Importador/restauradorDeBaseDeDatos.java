@@ -34,7 +34,7 @@ public class restauradorDeBaseDeDatos {
             System.err.println(e);
         }
         
-        Connection conn2 = ConnectionProvider.getConnection();
+        conn = ConnectionProvider.getConnection();
         
     }
 
