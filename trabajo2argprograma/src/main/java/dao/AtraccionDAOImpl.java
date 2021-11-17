@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.util.LinkedList;
 import java.util.List;
 
+import excepciones.MissingDataException;
 import jdbc.ConnectionProvider;
 import model.Atraccion;
 import model.TipoDeAtraccion;

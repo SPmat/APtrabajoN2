@@ -1,4 +1,4 @@
-package dao;
+package excepciones;
 
 public class MissingDataException extends RuntimeException {
 

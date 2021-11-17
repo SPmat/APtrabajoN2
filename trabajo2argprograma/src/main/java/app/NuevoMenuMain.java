@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import Importador.restauradorDeBaseDeDatos;
 import dao.AtraccionDAOImpl;
 import dao.ItinerarioDAOImpl;
 import dao.PromocionDAOImpl;
@@ -15,6 +14,7 @@ import model.Atraccion;
 import model.Itinerario;
 import model.Promocion;
 import model.Usuario;
+import restauradores.restauradorDeBaseDeDatos;
 
 public class NuevoMenuMain {
 	
@@ -39,7 +39,7 @@ public class NuevoMenuMain {
 		todosLosItinerarios= itinerarios.findAll();
 		
 
-		Aplicacion app = new Aplicacion(todasLasAtracciones, todasLasPromociones);
+		Ofertador app = new Ofertador(todasLasAtracciones, todasLasPromociones);
 
 		app.separarEnListas();	
 		

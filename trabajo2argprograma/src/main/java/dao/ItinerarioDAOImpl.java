@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.util.LinkedList;
 import java.util.List;
 
+import excepciones.MissingDataException;
 import jdbc.ConnectionProvider;
 import model.Atraccion;
 import model.Itinerario;
@@ -81,19 +82,6 @@ public class ItinerarioDAOImpl implements ItinerarioDAO {
 		} catch(Exception e) {
 			throw new MissingDataException(e);
 		}
-	}
-	
-	public int delete(Itinerario t) {
-		return 0;
-	}
-
-	public int insert(Itinerario t) {
-		return 0;
-	}
-
-
-	public int update(Itinerario t) {
-		return 0;
 	}
 
 }

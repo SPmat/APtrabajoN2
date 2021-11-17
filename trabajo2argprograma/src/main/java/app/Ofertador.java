@@ -22,7 +22,7 @@ import model.Usuario;
 
 //La aplicacion se encarga del manejo y organizacion de todas las atracciones y promociones disponibles.
 
-public class Aplicacion {
+public class Ofertador {
 
 	// Todas las listas necesarias para organizar
 	List<Atraccion> todasLasAtracciones = new ArrayList<Atraccion>();
@@ -42,7 +42,7 @@ public class Aplicacion {
 
 
 	// El constructor recibe una lista de atracciones
-	public Aplicacion(List<Atraccion> Atracciones, List<Promocion> promociones) {
+	public Ofertador(List<Atraccion> Atracciones, List<Promocion> promociones) {
 		this.todasLasAtracciones = Atracciones;
 		this.todasLasPromociones=promociones;
 

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import excepciones.MissingDataException;
 import jdbc.ConnectionProvider;
 import model.*;
 
@@ -282,18 +283,4 @@ public class PromocionDAOImpl implements PromocionDAO{
 			throw new MissingDataException(e);
 		}
 	}
-
-
-	@Override
-	public int update(Promocion t) {
-		//no hay nada que actualizar
-		return 0;
-	}
-
-	public List<Promocion> findAll() {
-		System.out.println("Advertencia: se esta usando un findAll() de promociones no implementado.");
-		return null;
-	}
-
-
 }

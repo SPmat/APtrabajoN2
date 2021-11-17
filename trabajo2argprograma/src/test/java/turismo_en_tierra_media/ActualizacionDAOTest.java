@@ -11,7 +11,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import app.Aplicacion;
+import app.Ofertador;
 import dao.AtraccionDAO;
 import dao.AtraccionDAOImpl;
 import dao.DAOFactory;
@@ -67,7 +67,7 @@ public class ActualizacionDAOTest {
 	@Test
 	public void convervaPosicionTest() throws SQLException {
 
-		Aplicacion app = new Aplicacion(todasLasAtracciones, todasLasPromociones);
+		Ofertador app = new Ofertador(todasLasAtracciones, todasLasPromociones);
 
 		app.separarEnListas();	
 		
@@ -93,7 +93,7 @@ public class ActualizacionDAOTest {
 	@Test
 	public void actualizaCantidadUsosTest() throws SQLException {
 
-		Aplicacion app = new Aplicacion(todasLasAtracciones, todasLasPromociones);
+		Ofertador app = new Ofertador(todasLasAtracciones, todasLasPromociones);
 
 		app.separarEnListas();	
 		
